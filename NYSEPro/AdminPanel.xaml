@@ -28,11 +28,11 @@
         <TextBox x:Name="StExchangeTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="368,116,0,0"/>
         <Label x:Name="StDate" Content="Stock Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="13,156,0,0"/>
         <DataGrid x:Name="AdminDataGrid" HorizontalAlignment="Left" Height="386" VerticalAlignment="Top" Width="775" Margin="13,208,0,0" SelectionChanged="AdminDataGrid_SelectionChanged"/>
-        <Button x:Name="AddBtn" Content="Add New Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="107" Margin="260,160,0,0" Click="AddBtn_Click"/>
-        <Button x:Name="DelBtn" Content="Delete Selected Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="127" Margin="388,159,0,0" Click="DelBtn_Click_1"/>
-        <Button x:Name="UpdateBtn" Content="Update Selected Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="533,159,0,0" Click="UpdateBtn_Click"/>
-        <Button x:Name="HelpBtn" Content="Help" HorizontalAlignment="Left" VerticalAlignment="Top" Width="75"  Margin="684,159,0,0"/>
+        <Button x:Name="AddBtn" Content="Add New Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="106" Margin="244,164,0,0" Click="AddBtn_Click" RenderTransformOrigin="1.179,1.249"/>
+        <Button x:Name="DelBtn" Content="Delete Selected Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="514,164,0,0" Click="DelBtn_Click_1"/>
+        <Button x:Name="UpdateBtn" Content="Update Selected Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="366,164,0,0" Click="UpdateBtn_Click"/>
         <TextBox x:Name="DateTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="115,157,0,0"/>
+        <Button x:Name="Help_button" Content="Help" HorizontalAlignment="Left" Margin="654,164,0,0" VerticalAlignment="Top" Width="126" Click="Help_button_Click"/>
     </Grid>
 
 </Window>

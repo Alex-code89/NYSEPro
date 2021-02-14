@@ -57,7 +57,7 @@ namespace NYSEPro
                 MessageBox.Show("Invalid username or password...!!!", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
+        // Clear button funcionality
         private void ClearBtn_Click(object sender, RoutedEventArgs e)
         {
             Username_txt.Clear();

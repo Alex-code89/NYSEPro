@@ -157,5 +157,11 @@ namespace NYSEPro
             loadData();
 
         }
+        //Help button functionality
+        private void Help_button_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show(@"Date format is : yyyy/mm/dd");
+
+        }
     }
 }
