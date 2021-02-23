@@ -13,6 +13,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using System.Data;
 using System.Data.SqlClient;
+using System.Globalization;
+using System.Management;
+using System.IO;
+using System.Diagnostics;
+
+
+
 
 namespace NYSEPro
 {
@@ -25,22 +32,36 @@ namespace NYSEPro
         {
             InitializeComponent();
         }
+
+
+
         //Helper Functions
         //Functon to load data on start up 
         private void loadData()
         {
-            SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
-            SqlDataAdapter sda = new SqlDataAdapter(@"SELECT *
+            try
+            {
+                SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
+                SqlDataAdapter sda = new SqlDataAdapter(@"SELECT *
                      FROM [dbo].[Stocks]", con);
-            DataTable dt = new DataTable();
-            sda.Fill(dt);
-            AdminDataGrid.ItemsSource = dt.DefaultView;
+                DataTable dt = new DataTable();
+                sda.Fill(dt);
+                AdminDataGrid.ItemsSource = dt.DefaultView;
+            }
+            catch (SqlException ex)
+
+            {
+                MessageBox.Show("The following error just occurred when trying to connect to database: " + ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+
+
         }
 
         //Function to check if a stock exists in the database
         public bool ifExists(SqlConnection con, string stockId)
         {
-            con = new SqlConnection(@"Data Source=ELLIE\SQLEXPRESS;Initial Catalog=StockProj;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False");
+            con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
             SqlDataAdapter sda = new SqlDataAdapter("Select 1 From [dbo].[Stocks] WHERE [StockID]='" + stockId + "' ", con);
             DataTable dt = new DataTable();
             sda.Fill(dt);
@@ -66,13 +87,13 @@ namespace NYSEPro
             StPriceAdjCloseTxt.Clear();
             StVolumeTxt.Clear();
             StExchangeTxt.Clear();
-            DateTxt.Clear ();
+            StockDatePicker.SelectedDate = null;
         }
 
         //Main Functions
 
-       //Start up form
-            private void AdminPanel_Loaded(object sender, RoutedEventArgs e)
+        //Start up form
+        private void AdminPanel_Loaded(object sender, RoutedEventArgs e)
         {
             loadData();
 
@@ -81,11 +102,13 @@ namespace NYSEPro
         //Add button
         private void AddBtn_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
-            con.Open();
-            SqlCommand sc = new SqlCommand(@"INSERT INTO [dbo].[Stocks]
+            try
+            {
+                SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
+                con.Open();
+                SqlCommand sc = new SqlCommand(@"INSERT INTO [dbo].[Stocks]
                    ([StockID]
-                   ,[date]
+                   ,[Date]
                    ,[StockSymbol]
                    ,[StockPriceOpen]
                    ,[StockPriceClose]
@@ -95,13 +118,22 @@ namespace NYSEPro
                    ,[StockVolume]
                    ,[StockExchange])
              VALUES
-                   ('" +Convert.ToInt32( StIdTxt.Text) + "', '" + Convert.ToDateTime(DateTxt.Text) + "', '" + StSymbolTxt.Text + "', '" + StPriceOpenTxt.Text + "', '" + StPriceCloseTxt.Text + "', '" + StPriceLowTxt.Text + "', '" + StPriceHighTxt.Text + "', '" + StPriceAdjCloseTxt.Text + "', '" + StVolumeTxt.Text + "', '" + StExchangeTxt.Text + "')", con);
-            MessageBox.Show(Convert.ToDateTime(DateTxt.Text).ToString());
-            sc.ExecuteNonQuery();
-            
-            con.Close();
-            resetData();
-            loadData();
+                   ('" + Convert.ToInt32(StIdTxt.Text) + "', '" + StockDatePicker.SelectedDate.Value.ToString("MM/dd/yyyy") + "', '" + StSymbolTxt.Text + "', '" + StPriceOpenTxt.Text + "', '" + StPriceCloseTxt.Text + "', '" + StPriceLowTxt.Text + "', '" + StPriceHighTxt.Text + "', '" + StPriceAdjCloseTxt.Text + "', '" + StVolumeTxt.Text + "', '" + StExchangeTxt.Text + "')", con);
+                sc.ExecuteNonQuery();
+
+                con.Close();
+            }
+            catch (SqlException ex)
+
+            {
+                MessageBox.Show("The following error just occurred when trying to connect to database: " + ex.Message, "ERROR on adding a new entity", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+            finally
+            {
+                resetData();
+                loadData();
+            }
         }
 
         //Delete Button
@@ -116,7 +148,7 @@ namespace NYSEPro
             DataGrid dg = (DataGrid)sender;
             DataRowView selectedRow = dg.SelectedItem as DataRowView;
 
-            if(selectedRow != null)
+            if (selectedRow != null)
             {
                 StIdTxt.Text = selectedRow["StockID"].ToString();
                 StSymbolTxt.Text = selectedRow["StockSymbol"].ToString(); ;
@@ -127,8 +159,7 @@ namespace NYSEPro
                 StPriceAdjCloseTxt.Text = selectedRow["StockPriceAdjClose"].ToString(); ;
                 StVolumeTxt.Text = selectedRow["StockVolume"].ToString(); ;
                 StExchangeTxt.Text = selectedRow["StockExchange"].ToString(); ;
-                DateTxt.Text = selectedRow["Date"].ToString();
-                //StockDatePicker.SelectedDate = DateTime.Parse(selectedRow["Date"]);
+                StockDatePicker.SelectedDate = Convert.ToDateTime(selectedRow["Date"]);
             }
 
         }
@@ -136,32 +167,108 @@ namespace NYSEPro
         //Delete button functionality
         private void DelBtn_Click_1(object sender, RoutedEventArgs e)
         {
-            SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
-            con.Open();
-            SqlCommand sc = new SqlCommand(@"DELETE FROM  [dbo].[Stocks] Where [StockID] = '" + StIdTxt.Text + "'  ",con);
-            sc.ExecuteNonQuery();
-            con.Close();
-            resetData();
-            loadData();
+            try
+            {
+                SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
+                con.Open();
+                SqlCommand sc = new SqlCommand(@"DELETE FROM  [dbo].[Stocks] Where [StockID] = '" + StIdTxt.Text + "'  ", con);
+                sc.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (SqlException ex)
+
+            {
+                MessageBox.Show("The following error just occurred when trying to connect to database: " + ex.Message, "ERROR on deleting an entity", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+            finally
+            {
+                resetData();
+                loadData();
+            }
         }
         //Update button functionality
 
         private void UpdateBtn_Click(object sender, RoutedEventArgs e)
         {
-            SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
-            con.Open();
-            SqlCommand sc = new SqlCommand(@"UPDATE [dbo].[Stocks] SET [StockID] ='" + Convert.ToInt32(StIdTxt.Text) + "' ,[date] = '" +Convert.ToDateTime( DateTxt.Text) + "',[StockSymbol] = '" + StSymbolTxt.Text + "',[StockPriceOpen] = '" + StPriceOpenTxt.Text + "',[StockPriceClose] = '" + StPriceCloseTxt.Text + "',[StockPriceIo] = '" + StPriceLowTxt.Text + "',[StockPriceHigh] = '" + StPriceHighTxt.Text + "',[StockPriceAdjClose] = '" + StPriceAdjCloseTxt.Text + "', [StockVolume] = '" + StVolumeTxt.Text + "',[StockExchange] = '" + StExchangeTxt.Text + "'Where [StockID] = '" + StIdTxt.Text + "'", con);
-            sc.ExecuteNonQuery();
-            con.Close();
-            resetData();
-            loadData();
+            try
+            {
+                SqlConnection con = new SqlConnection(@"Data Source=.\main;Initial Catalog=NYSE;Integrated Security=True");
+                con.Open();
+                SqlCommand sc = new SqlCommand(@"UPDATE [dbo].[Stocks] SET [StockID] ='" + Convert.ToInt32(StIdTxt.Text) + "' , [Date] = '" + StockDatePicker.SelectedDate.Value.ToString("MM/dd/yyyy") + "',[StockSymbol] = '" + StSymbolTxt.Text + "',[StockPriceOpen] = '" + StPriceOpenTxt.Text + "',[StockPriceClose] = '" + StPriceCloseTxt.Text + "',[StockPriceIo] = '" + StPriceLowTxt.Text + "',[StockPriceHigh] = '" + StPriceHighTxt.Text + "',[StockPriceAdjClose] = '" + StPriceAdjCloseTxt.Text + "', [StockVolume] = '" + StVolumeTxt.Text + "',[StockExchange] = '" + StExchangeTxt.Text + "'Where [StockID] = '" + StIdTxt.Text + "'", con);
+                sc.ExecuteNonQuery();
+                con.Close();
+            }
+            catch (SqlException ex)
+
+            {
+                MessageBox.Show("The following error just occurred when trying to connect to database: " + ex.Message, "ERROR On updating an entity", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+            finally
+            {
+                MessageBox.Show("Record Updated Successfully");
+                resetData();
+                loadData();
+            }
 
         }
-        //Help button functionality
-        private void Help_button_Click(object sender, RoutedEventArgs e)
+       
+
+
+
+        private void ServerInfo_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(@"Date format is : yyyy/mm/dd");
+
+
+            Form1 form1 = new Form1();
+            form1.Show();
+           
 
         }
+        public static void WriteEventLogEntry(string message)
+        {
+            // Create an instance of EventLog
+            System.Diagnostics.EventLog eventLog = new System.Diagnostics.EventLog();
+
+            // Check if the event source exists. If not create it.
+            if (!System.Diagnostics.EventLog.SourceExists("NYSEPROApplication"))
+            {
+                System.Diagnostics.EventLog.CreateEventSource("NYSEPROApplication", "Application");
+            }
+
+            // Set the source name for writing log entries.
+            eventLog.Source = "NYSEPROApplication";
+
+            // Create an event ID to add to the event log
+            int eventID = 8;
+
+            // Write an entry to the event log.
+            eventLog.WriteEntry(message,
+                                System.Diagnostics.EventLogEntryType.Error,
+                                eventID);
+
+            // Close the Event Log
+            eventLog.Close();
+        }
+
+
+        private void LogAanEventButton_Click(object sender, RoutedEventArgs e)
+        {
+            //WriteEventLogEntry("The application is successfully logged in windows.");
+            //MessageBox.Show("Logged successfully! Please go to Control Panel->Administrative Tools->Event Viewer->From the left panel, under windows logs->double click on the Application and on the right panel you will see the logged event! ");
+            var result = MessageBox.Show("Do you have administrator previliges?", "", MessageBoxButton.YesNo, MessageBoxImage.Question);
+            if (result == MessageBoxResult.Yes)
+            {
+                WriteEventLogEntry("The application is successfully logged in windows.");
+                MessageBox.Show("Logged successfully! Please go to Control Panle->Administrative Tools->Event Viewer->From the left panel, under windows logs->double click on the Application and on the right panel you will see the logged event! ");
+            }
+            else
+            {
+                MessageBox.Show("Please re enter as an administrator.");
+            }
+        }
+
     }
 }
+

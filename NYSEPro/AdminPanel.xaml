@@ -8,31 +8,36 @@
         Title="Admin Panel" Height="652" Width="806" Loaded="AdminPanel_Loaded">
 
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="481*"/>
+            <ColumnDefinition Width="317*"/>
+        </Grid.ColumnDefinitions>
         <Label x:Name="StId" Content="Stock Code" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,24,0,0"/>
         <TextBox x:Name="StIdTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="111,24,0,0"/>
         <Label x:Name="StSymbol" Content="Stock Symbol " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="273,24,0,0"/>
-        <TextBox x:Name="StSymbolTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="368,24,0,0"/>
-        <Label x:Name="StPriceOpen" Content="Stock Price Open" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="511,24,0,0"/>
-        <TextBox x:Name="StPriceOpenTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="655,24,0,0"/>
+        <TextBox x:Name="StSymbolTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="368,24,0,0" Grid.ColumnSpan="2"/>
+        <Label x:Name="StPriceOpen" Content="Stock Price Open" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,24,0,0" Grid.Column="1"/>
+        <TextBox x:Name="StPriceOpenTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="174,24,0,0" Grid.Column="1"/>
         <Label x:Name="StPriceClose" Content="Stock Price Close" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,69,0,0"/>
         <TextBox x:Name="StPriceCloseTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="114,69,0,0"/>
         <Label x:Name="StPriceHigh" Content="Stock Price High" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="268,66,0,0"/>
-        <TextBox x:Name="StPriceHighTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="368,69,0,0"/>
-        <Label x:Name="StPriceLow" Content="Stock Price Low " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="516,72,0,0"/>
-        <TextBox x:Name="StPriceLowTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="655,72,0,0"/>
-        <Label x:Name="StPriceAdjClose" Content="Stock Price Adjust Close" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="511,113,0,0"/>
-        <TextBox x:Name="StPriceAdjCloseTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="655,116,0,0"/>
+        <TextBox x:Name="StPriceHighTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="368,69,0,0" Grid.ColumnSpan="2"/>
+        <Label x:Name="StPriceLow" Content="Stock Price Low " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="35,72,0,0" Grid.Column="1"/>
+        <TextBox x:Name="StPriceLowTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="174,72,0,0" Grid.Column="1"/>
+        <Label x:Name="StPriceAdjClose" Content="Stock Price Adjust Close" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="30,113,0,0" Grid.Column="1"/>
+        <TextBox x:Name="StPriceAdjCloseTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="174,116,0,0" Grid.Column="1"/>
         <Label x:Name="StVolume" Content="Stock Volume" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,116,0,0"/>
         <TextBox x:Name="StVolumeTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="114,116,0,0"/>
         <Label x:Name="StExchange" Content="Stock Exchange " HorizontalAlignment="Left" VerticalAlignment="Top" Margin="268,116,0,0"/>
-        <TextBox x:Name="StExchangeTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="368,116,0,0"/>
-        <Label x:Name="StDate" Content="Stock Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="13,156,0,0"/>
-        <DataGrid x:Name="AdminDataGrid" HorizontalAlignment="Left" Height="386" VerticalAlignment="Top" Width="775" Margin="13,208,0,0" SelectionChanged="AdminDataGrid_SelectionChanged"/>
-        <Button x:Name="AddBtn" Content="Add New Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="106" Margin="244,164,0,0" Click="AddBtn_Click" RenderTransformOrigin="1.179,1.249"/>
-        <Button x:Name="DelBtn" Content="Delete Selected Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="126" Margin="514,164,0,0" Click="DelBtn_Click_1"/>
-        <Button x:Name="UpdateBtn" Content="Update Selected Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="130" Margin="366,164,0,0" Click="UpdateBtn_Click"/>
-        <TextBox x:Name="DateTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="115,157,0,0"/>
-        <Button x:Name="Help_button" Content="Help" HorizontalAlignment="Left" Margin="654,164,0,0" VerticalAlignment="Top" Width="126" Click="Help_button_Click"/>
+        <TextBox x:Name="StExchangeTxt" HorizontalAlignment="Left" Height="23" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="120" Margin="368,116,0,0" Grid.ColumnSpan="2"/>
+        <Label x:Name="StDate" Content="Stock Date" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="13,161,0,0"/>
+        <DataGrid x:Name="AdminDataGrid" HorizontalAlignment="Left" Height="386" VerticalAlignment="Top" Width="775" Margin="13,208,0,0" SelectionChanged="AdminDataGrid_SelectionChanged" Grid.ColumnSpan="2"/>
+        <Button x:Name="AddBtn" Content="Add New Stock" VerticalAlignment="Top" Margin="250,163,116,0" Click="AddBtn_Click" RenderTransformOrigin="1.179,1.249"/>
+        <Button x:Name="DelBtn" Content="Delete Selected Stock" VerticalAlignment="Top" Margin="32,165,165,0" Click="DelBtn_Click_1" Grid.Column="1" Height="20"/>
+        <Button x:Name="UpdateBtn" Content="Update Selected Stock" HorizontalAlignment="Left" VerticalAlignment="Top" Width="125" Margin="377,163,0,0" Click="UpdateBtn_Click" Grid.ColumnSpan="2" Height="20" RenderTransformOrigin="0.48,1.25"/>
+        <DatePicker x:Name="StockDatePicker" HorizontalAlignment="Left" Margin="114,161,0,0" VerticalAlignment="Top" Width="119"/>
+        <Button x:Name="ServerInfo" Content="Server &#xD;&#xA; Info" HorizontalAlignment="Left" Margin="177,160,0,0" VerticalAlignment="Top" Width="49" Height="39" Grid.Column="1" RenderTransformOrigin="0.544,0.094" Click="ServerInfo_Click"/>
+        <Button x:Name="LogAanEventButton" Content=" Log &#xD;&#xA;event" Grid.Column="1" HorizontalAlignment="Left" Margin="247,160,0,0" VerticalAlignment="Top" Width="47" Height="39" Click="LogAanEventButton_Click"/>
     </Grid>
 
 </Window>

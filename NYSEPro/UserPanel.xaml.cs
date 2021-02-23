@@ -14,7 +14,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using Newtonsoft.Json;
-using System.Net.Http;
 using iTextSharp.text;
 using iTextSharp.text.pdf;
 using System.IO;
@@ -22,9 +21,7 @@ using Microsoft.Win32;
 using System.Collections;
 using System.Windows.Controls.Primitives;
 using iTextSharp;
-using iTextSharp.text;
-using iTextSharp.text.pdf;
-
+using System.Globalization;
 
 namespace NYSEPro
 {
@@ -54,30 +51,66 @@ namespace NYSEPro
         private void SearchBtn_MouseDoubleClick(object sender, MouseButtonEventArgs e)
         {
             //Load our web services base url
-
             WebServicesSetting();
-          
-            //Search by date
-            DateTime fromDate = DateTime.Parse(FromTxt.Text);
-            DateTime toDate = DateTime.Parse(ToTxt.Text);
-            HttpResponseMessage message = client.GetAsync("UsersDateSearch?startDate=" + fromDate + "&endDate=" + toDate + "").Result;
-            string userJson = message.Content.ReadAsStringAsync().Result;
-            var table = splitString(userJson);
-            UserDataGrid.ItemsSource = table.DefaultView; ;
+
+            try
+            {
+                HttpResponseMessage message = client.GetAsync("UsersDateSearch?startDate=" + FromDatePicker.SelectedDate.Value.ToString("MM/dd/yyyy") + "&endDate=" + ToDatePicker.SelectedDate.Value.ToString("MM/dd/yyyy") + "").Result;
+                string userJson = message.Content.ReadAsStringAsync().Result;
+                var table = splitString(userJson);
+                UserDataGrid.ItemsSource = table.DefaultView;
+                MessageBox.Show(ToDatePicker.SelectedDate.Value.ToString());
+               // MessageBox.Show(userJson);
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("The following error just occurred: " + ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
 
 
 
         }
 
-        //Help button functionality
+
         private void HelpBtn_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show(@"Date format for search is : yyyy/dd/mm
-You can get a pdf of your search result by clicking on the save button.
+            MessageBox.Show(@"You can get a pdf of your search result by clicking on the save button.
 For more enquries contact our IT team");
 
         }
 
+        private void SearchBtn_Click(object sender, RoutedEventArgs e)
+        {
+            WebServicesSetting();
+
+            try
+            {
+                HttpResponseMessage message = client.GetAsync("UsersDateSearch?startDate=" + FromDatePicker.SelectedDate.Value.ToString("MM/dd/yyyy") + "&endDate=" + ToDatePicker.SelectedDate.Value.ToString("MM/dd/yyyy") + "").Result;
+                string userJson = message.Content.ReadAsStringAsync().Result;
+                var table = splitString(userJson);
+                UserDataGrid.ItemsSource = table.DefaultView;
+                MessageBox.Show(ToDatePicker.SelectedDate.Value.ToString());
+                //MessageBox.Show(userJson);
+            }
+            catch (Exception ex)
+
+            {
+                MessageBox.Show("The following error just occurred: " + ex.Message, "ERROR", MessageBoxButton.OK, MessageBoxImage.Warning);
+
+            }
+
+
+
+        }
+    
+
+        private void SaveBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ExportToPdf(UserDataGrid);
+
+        }
         public static IEnumerable<T> FindVisualChildren<T>(DependencyObject depObj) where T : DependencyObject
         {
             if (depObj != null)
@@ -99,7 +132,7 @@ For more enquries contact our IT team");
         }
 
         public static childItem FindVisualChild<childItem>(DependencyObject obj)
-          where childItem : DependencyObject
+            where childItem : DependencyObject
         {
             foreach (childItem child in FindVisualChildren<childItem>(obj))
             {
@@ -110,62 +143,51 @@ For more enquries contact our IT team");
 
         private void ExportToPdf(DataGrid grid)
         {
-            PdfPTable table = new PdfPTable(grid.Columns.Count);
-            Document doc = new Document(iTextSharp.text.PageSize.LETTER, 10, 10, 42, 35);
-            PdfWriter writer = PdfWriter.GetInstance(doc, new System.IO.FileStream(@"C:\Users\saska\Desktop\Test.pdf", System.IO.FileMode.Create));
-            doc.Open();
-            for (int j = 0; j < grid.Columns.Count; j++)
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "PDF Files|*.pdf";
+            saveFileDialog.FilterIndex = 0;
+            bool? result = saveFileDialog.ShowDialog();
+
+
+            string fileName = string.Empty;
+            if (result == true)
+
             {
-                table.AddCell(new Phrase(grid.Columns[j].Header.ToString()));
-            }
-            table.HeaderRows = 1;
-            IEnumerable itemsSource = grid.ItemsSource as IEnumerable;
-            if (itemsSource != null)
-            {
-                foreach (var item in itemsSource)
+                fileName = saveFileDialog.FileName;
+                PdfPTable table = new PdfPTable(grid.Columns.Count);
+                Document doc = new Document(iTextSharp.text.PageSize.LETTER, 10, 10, 42, 35);
+                PdfWriter writer = PdfWriter.GetInstance(doc, new System.IO.FileStream(fileName, System.IO.FileMode.Create));
+                doc.Open();
+                for (int j = 0; j < grid.Columns.Count; j++)
                 {
-                    DataGridRow row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
-                    if (row != null)
+                    table.AddCell(new Phrase(grid.Columns[j].Header.ToString()));
+                }
+                table.HeaderRows = 1;
+                IEnumerable itemsSource = grid.ItemsSource as IEnumerable;
+                if (itemsSource != null)
+                {
+                    foreach (var item in itemsSource)
                     {
-                        DataGridCellsPresenter presenter = FindVisualChild<DataGridCellsPresenter>(row);
-                        for (int i = 0; i < grid.Columns.Count; ++i)
+                        DataGridRow row = grid.ItemContainerGenerator.ContainerFromItem(item) as DataGridRow;
+                        if (row != null)
                         {
-                            DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(i);
-                            TextBlock txt = cell.Content as TextBlock;
-                            if (txt != null)
+                            DataGridCellsPresenter presenter = FindVisualChild<DataGridCellsPresenter>(row);
+                            for (int i = 0; i < grid.Columns.Count; ++i)
                             {
-                                table.AddCell(new Phrase(txt.Text));
+                                DataGridCell cell = (DataGridCell)presenter.ItemContainerGenerator.ContainerFromIndex(i);
+                                TextBlock txt = cell.Content as TextBlock;
+                                if (txt != null)
+                                {
+                                    table.AddCell(new Phrase(txt.Text));
+                                }
                             }
                         }
                     }
+
+                    doc.Add(table);
+                    doc.Close();
                 }
-
-                MessageBox.Show(@"PDF file is now saved under your C:\Users\saska\Desktop\Test");
-
-                doc.Add(table);
-                doc.Close();
             }
-        }
-
-        private void SaveBtn_Click(object sender, RoutedEventArgs e)
-        {
-            ExportToPdf(UserDataGrid);
-
-        }
-
-        private void SearchBtn_Click(object sender, RoutedEventArgs e)
-        {
-            //Load our web services base url
-
-            WebServicesSetting();
-
-            //Search by date
-            DateTime fromDate = DateTime.Parse(FromTxt.Text);
-            DateTime toDate = DateTime.Parse(ToTxt.Text);
-            HttpResponseMessage message = client.GetAsync("UsersDateSearch?startDate=" + fromDate + "&endDate=" + toDate + "").Result;
-            string userJson = message.Content.ReadAsStringAsync().Result;
-            var table = splitString(userJson);
-            UserDataGrid.ItemsSource = table.DefaultView; ;
         }
     }
 }
