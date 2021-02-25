@@ -19,7 +19,7 @@ namespace NYSEPro
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            timer.Start();
         }
 
         private void Timer_Tick(object sender, EventArgs e)
@@ -43,17 +43,17 @@ namespace NYSEPro
 
         }
 
-        private void metroProgressBarCPU_Click(object sender, EventArgs e)
+        private void MetroProgressBarCPU_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void metroProgressBarRAM_Click(object sender, EventArgs e)
+        private void MetroProgressBarRAM_Click(object sender, EventArgs e)
         {
 
         }
 
-        private void metroProgressBarHDD_Click(object sender, EventArgs e)
+        private void MetroProgressBarHDD_Click(object sender, EventArgs e)
         {
 
         }

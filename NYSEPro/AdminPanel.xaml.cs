@@ -219,12 +219,8 @@ namespace NYSEPro
 
         private void ServerInfo_Click(object sender, RoutedEventArgs e)
         {
-
-
             Form1 form1 = new Form1();
             form1.Show();
-           
-
         }
         public static void WriteEventLogEntry(string message)
         {

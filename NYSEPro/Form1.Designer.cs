@@ -41,8 +41,8 @@ namespace NYSEPro
             this.metroLabelRAM = new MetroFramework.Controls.MetroLabel();
             this.perfCounterCPU = new System.Diagnostics.PerformanceCounter();
             this.perfCounterRAM = new System.Diagnostics.PerformanceCounter();
-            this.perfCounterHDD = new System.Diagnostics.PerformanceCounter();
             this.timer = new System.Windows.Forms.Timer(this.components);
+            this.perfCounterHDD = new System.Diagnostics.PerformanceCounter();
             ((System.ComponentModel.ISupportInitialize)(this.perfCounterCPU)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfCounterRAM)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.perfCounterHDD)).BeginInit();
@@ -51,7 +51,8 @@ namespace NYSEPro
             // CPU
             // 
             this.CPU.AutoSize = true;
-            this.CPU.Location = new System.Drawing.Point(98, 138);
+            this.CPU.Location = new System.Drawing.Point(310, 393);
+            this.CPU.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.CPU.Name = "CPU";
             this.CPU.Size = new System.Drawing.Size(35, 19);
             this.CPU.TabIndex = 0;
@@ -60,7 +61,8 @@ namespace NYSEPro
             // RAM
             // 
             this.RAM.AutoSize = true;
-            this.RAM.Location = new System.Drawing.Point(98, 187);
+            this.RAM.Location = new System.Drawing.Point(310, 532);
+            this.RAM.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.RAM.Name = "RAM";
             this.RAM.Size = new System.Drawing.Size(38, 19);
             this.RAM.TabIndex = 1;
@@ -69,7 +71,8 @@ namespace NYSEPro
             // HDD
             // 
             this.HDD.AutoSize = true;
-            this.HDD.Location = new System.Drawing.Point(100, 240);
+            this.HDD.Location = new System.Drawing.Point(317, 683);
+            this.HDD.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.HDD.Name = "HDD";
             this.HDD.Size = new System.Drawing.Size(36, 19);
             this.HDD.TabIndex = 2;
@@ -77,32 +80,36 @@ namespace NYSEPro
             // 
             // metroProgressBarCPU
             // 
-            this.metroProgressBarCPU.Location = new System.Drawing.Point(148, 138);
+            this.metroProgressBarCPU.Location = new System.Drawing.Point(469, 393);
+            this.metroProgressBarCPU.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.metroProgressBarCPU.Name = "metroProgressBarCPU";
-            this.metroProgressBarCPU.Size = new System.Drawing.Size(239, 23);
+            this.metroProgressBarCPU.Size = new System.Drawing.Size(757, 65);
             this.metroProgressBarCPU.TabIndex = 3;
-            this.metroProgressBarCPU.Click += new System.EventHandler(this.metroProgressBarCPU_Click);
+            this.metroProgressBarCPU.Click += new System.EventHandler(this.MetroProgressBarCPU_Click);
             // 
             // metroProgressBarRAM
             // 
-            this.metroProgressBarRAM.Location = new System.Drawing.Point(148, 183);
+            this.metroProgressBarRAM.Location = new System.Drawing.Point(469, 521);
+            this.metroProgressBarRAM.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.metroProgressBarRAM.Name = "metroProgressBarRAM";
-            this.metroProgressBarRAM.Size = new System.Drawing.Size(239, 23);
+            this.metroProgressBarRAM.Size = new System.Drawing.Size(757, 65);
             this.metroProgressBarRAM.TabIndex = 4;
-            this.metroProgressBarRAM.Click += new System.EventHandler(this.metroProgressBarRAM_Click);
+            this.metroProgressBarRAM.Click += new System.EventHandler(this.MetroProgressBarRAM_Click);
             // 
             // metroProgressBarHDD
             // 
-            this.metroProgressBarHDD.Location = new System.Drawing.Point(148, 236);
+            this.metroProgressBarHDD.Location = new System.Drawing.Point(469, 672);
+            this.metroProgressBarHDD.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.metroProgressBarHDD.Name = "metroProgressBarHDD";
-            this.metroProgressBarHDD.Size = new System.Drawing.Size(239, 23);
+            this.metroProgressBarHDD.Size = new System.Drawing.Size(757, 65);
             this.metroProgressBarHDD.TabIndex = 5;
-            this.metroProgressBarHDD.Click += new System.EventHandler(this.metroProgressBarHDD_Click);
+            this.metroProgressBarHDD.Click += new System.EventHandler(this.MetroProgressBarHDD_Click);
             // 
             // metroLabelCPU
             // 
             this.metroLabelCPU.AutoSize = true;
-            this.metroLabelCPU.Location = new System.Drawing.Point(393, 142);
+            this.metroLabelCPU.Location = new System.Drawing.Point(1245, 404);
+            this.metroLabelCPU.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.metroLabelCPU.Name = "metroLabelCPU";
             this.metroLabelCPU.Size = new System.Drawing.Size(27, 19);
             this.metroLabelCPU.TabIndex = 6;
@@ -111,7 +118,8 @@ namespace NYSEPro
             // metroLabelHDD
             // 
             this.metroLabelHDD.AutoSize = true;
-            this.metroLabelHDD.Location = new System.Drawing.Point(393, 236);
+            this.metroLabelHDD.Location = new System.Drawing.Point(1245, 672);
+            this.metroLabelHDD.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.metroLabelHDD.Name = "metroLabelHDD";
             this.metroLabelHDD.Size = new System.Drawing.Size(27, 19);
             this.metroLabelHDD.TabIndex = 7;
@@ -120,7 +128,8 @@ namespace NYSEPro
             // metroLabelRAM
             // 
             this.metroLabelRAM.AutoSize = true;
-            this.metroLabelRAM.Location = new System.Drawing.Point(393, 187);
+            this.metroLabelRAM.Location = new System.Drawing.Point(1245, 532);
+            this.metroLabelRAM.Margin = new System.Windows.Forms.Padding(10, 0, 10, 0);
             this.metroLabelRAM.Name = "metroLabelRAM";
             this.metroLabelRAM.Size = new System.Drawing.Size(27, 19);
             this.metroLabelRAM.TabIndex = 8;
@@ -129,30 +138,30 @@ namespace NYSEPro
             // perfCounterCPU
             // 
             this.perfCounterCPU.CategoryName = "Processor";
-            this.perfCounterCPU.CounterName = "% Processor Time ";
+            this.perfCounterCPU.CounterName = "% Processor Time";
             this.perfCounterCPU.InstanceName = "_Total";
             // 
             // perfCounterRAM
             // 
             this.perfCounterRAM.CategoryName = "Memory";
-            this.perfCounterRAM.CounterName = "% Committed bytes in use";
-            // 
-            // perfCounterHDD
-            // 
-            this.perfCounterHDD.CategoryName = "Physical Disc";
-            this.perfCounterHDD.CounterName = "% Idle Time";
-            this.perfCounterHDD.InstanceName = "_Total";
+            this.perfCounterRAM.CounterName = "% Committed Bytes in Use";
             // 
             // timer
             // 
             this.timer.Interval = 1000;
             this.timer.Tick += new System.EventHandler(this.Timer_Tick);
             // 
+            // perfCounterHDD
+            // 
+            this.perfCounterHDD.CategoryName = "PhysicalDisk";
+            this.perfCounterHDD.CounterName = "% Idle Time";
+            this.perfCounterHDD.InstanceName = "_Total";
+            // 
             // Form1
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(19F, 37F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(590, 339);
+            this.ClientSize = new System.Drawing.Size(1870, 969);
             this.Controls.Add(this.metroLabelRAM);
             this.Controls.Add(this.metroLabelHDD);
             this.Controls.Add(this.metroLabelCPU);
@@ -162,7 +171,9 @@ namespace NYSEPro
             this.Controls.Add(this.HDD);
             this.Controls.Add(this.RAM);
             this.Controls.Add(this.CPU);
+            this.Margin = new System.Windows.Forms.Padding(10, 9, 10, 9);
             this.Name = "Form1";
+            this.Padding = new System.Windows.Forms.Padding(63, 171, 63, 57);
             this.Text = "Form1";
             this.Load += new System.EventHandler(this.Form1_Load);
             ((System.ComponentModel.ISupportInitialize)(this.perfCounterCPU)).EndInit();
@@ -185,8 +196,8 @@ namespace NYSEPro
         private MetroFramework.Controls.MetroLabel metroLabelHDD;
         private MetroFramework.Controls.MetroLabel metroLabelRAM;
         private System.Diagnostics.PerformanceCounter perfCounterCPU;
+        private System.Windows.Forms.Timer timer;
         private System.Diagnostics.PerformanceCounter perfCounterRAM;
         private System.Diagnostics.PerformanceCounter perfCounterHDD;
-        private System.Windows.Forms.Timer timer;
     }
 }
