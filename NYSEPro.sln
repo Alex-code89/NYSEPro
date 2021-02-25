@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NYSEPro", "NYSEPro\NYSEPro.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestPro", "UnitTestPro\UnitTestPro.csproj", "{727F7F55-D5F6-4570-864E-53861227AB65}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup NYSEPro", "Setup NYSEPro\Setup NYSEPro.vdproj", "{E29FA292-038B-4ABD-96C1-1A40963131DD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,8 @@ Global
 		{727F7F55-D5F6-4570-864E-53861227AB65}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{727F7F55-D5F6-4570-864E-53861227AB65}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{727F7F55-D5F6-4570-864E-53861227AB65}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E29FA292-038B-4ABD-96C1-1A40963131DD}.Debug|Any CPU.ActiveCfg = Release
+		{E29FA292-038B-4ABD-96C1-1A40963131DD}.Release|Any CPU.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
