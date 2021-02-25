@@ -216,7 +216,7 @@ namespace NYSEPro
        
 
 
-
+        // Server Info button functionality
         private void ServerInfo_Click(object sender, RoutedEventArgs e)
         {
             Form1 form1 = new Form1();
@@ -248,7 +248,7 @@ namespace NYSEPro
             eventLog.Close();
         }
 
-
+        //Log an Event button functionality
         private void LogAanEventButton_Click(object sender, RoutedEventArgs e)
         {
             //WriteEventLogEntry("The application is successfully logged in windows.");
